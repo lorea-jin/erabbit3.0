@@ -42,5 +42,14 @@
       "vue-cli-service lint",
       "git add"
     ]
-  }
+  },
+  "description": "```\r npm install\r ```",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git@gitee.com:lorea-jin/erabbit3.0.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
