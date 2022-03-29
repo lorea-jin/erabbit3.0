@@ -2,11 +2,14 @@
   "name": "erabbit3.0",
   "version": "0.1.0",
   "private": true,
+  "description": "```\r npm install\r ```",
+  "author": "",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "main": ".eslintrc.js",
   "dependencies": {
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
@@ -32,24 +35,23 @@
     "eslint-plugin-vue": "^7.0.0",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
-    "lint-staged": "^9.5.0"
+    "lint-staged": "^9.5.0",
+    "style-resources-loader": "^1.4.1",
+    "vue-cli-plugin-style-resources-loader": "~0.1.5"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
+  "keywords": [],
+  "license": "ISC",
   "lint-staged": {
     "*.{js,jsx,vue}": [
       "vue-cli-service lint",
       "git add"
     ]
   },
-  "description": "```\r npm install\r ```",
-  "main": ".eslintrc.js",
   "repository": {
     "type": "git",
     "url": "git@gitee.com:lorea-jin/erabbit3.0.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

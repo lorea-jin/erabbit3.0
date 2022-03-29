@@ -12,5 +12,10 @@ export default {
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang='less'>
+@import "../../assets/styles/mixins.less";
+
+.xtx-home-page {
+  .hoverShadow();
+}
 </style>
