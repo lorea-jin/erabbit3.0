@@ -1,7 +1,7 @@
 /**二级路由首页*/
 <template>
-  <div class='xtx-home-page'>
-    首页
+  <div class='container'>
+    二级路由首页
   </div>
 </template>
 
@@ -13,9 +13,4 @@ export default {
 </script>
 
 <style scoped lang='less'>
-@import "../../assets/styles/mixins.less";
-
-.xtx-home-page {
-  .hoverShadow();
-}
 </style>

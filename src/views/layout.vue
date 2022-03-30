@@ -14,15 +14,19 @@
 import AppTopnav from '../components/app-topnav.vue'
 import AppHeader from '../components/app-header.vue'
 import AppFooter from '../components/app-footer.vue'
+import { useStore } from 'vuex'
 
 export default {
-  name: 'xtx-layout',
+  name: 'layoutIndex',
   components: {
     AppTopnav, AppHeader, AppFooter
   },
-  setup () { }
+  setup () {
+    const store = useStore()
+    store.dispatch('category/getList')
+  }
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang='less'>
 </style>
