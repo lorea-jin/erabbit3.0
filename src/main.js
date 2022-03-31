@@ -6,4 +6,6 @@ import store from './store'
 import 'normalize.css'
 import './assets/styles/common.less'
 
-createApp(App).use(store).use(router).mount('#app')
+import UI from './components/library/index.js' // 挂载插件
+
+createApp(App).use(store).use(router).use(UI).mount('#app')

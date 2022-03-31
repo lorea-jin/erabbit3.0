@@ -9,7 +9,11 @@
             :key="subItem.id">{{subItem.name}}
           </RouterLink>
         </template>
-
+        <template v-else>
+          <XtxSkeleton :animated="true" width="60px" height="18px" style="margin-right:5px"
+            bg="rgba(255,255,255,0.2)" />
+          <XtxSkeleton :animated="true" width="50px" height="18px" bg="rgba(255,255,255,0.2)" />
+        </template>
       </li>
     </ul>
 
