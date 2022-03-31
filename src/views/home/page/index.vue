@@ -1,13 +1,19 @@
 /**二级路由首页*/
 <template>
   <div class='container'>
-    二级路由首页
+
+    <!-- 左侧分类 -->
+    <HomeCategory />
   </div>
 </template>
 
 <script>
+import HomeCategory from '../components/home-category.vue'
 export default {
-  name: 'xtx-home-page',
+  name: 'PageHome',
+  components: {
+    HomeCategory
+  },
   setup () { }
 }
 </script>
