@@ -7,6 +7,8 @@
 
       <!-- 右侧轮播图 -->
       <HomeBanner />
+
+      <NewAndHot />
     </div>
   </div>
 
@@ -15,11 +17,12 @@
 <script>
 import HomeCategory from '../components/home-category.vue'
 import HomeBanner from '../components/home-banner.vue'
+import NewAndHot from '../components/home-NewAndHot.vue'
 
 export default {
   name: 'PageHome',
   components: {
-    HomeCategory, HomeBanner
+    HomeCategory, HomeBanner, NewAndHot
   },
   setup () { }
 }
