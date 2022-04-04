@@ -15,6 +15,8 @@
 
     <HomeProduct />
 
+    <!-- 最新专题 -->
+    <HomeSpecial />
   </div>
 
 </template>
@@ -25,10 +27,11 @@ import HomeBanner from '../components/home-banner.vue'
 import NewAndHot from '../components/home-NewAndHot.vue'
 import HomeBrand from '../components/home-brand.vue'
 import HomeProduct from '../components/home-product.vue'
+import HomeSpecial from '../components/home-special.vue'
 export default {
   name: 'PageHome',
   components: {
-    HomeCategory, HomeBanner, NewAndHot, HomeBrand, HomeProduct
+    HomeCategory, HomeBanner, NewAndHot, HomeBrand, HomeProduct, HomeSpecial
   },
   setup () { }
 }
