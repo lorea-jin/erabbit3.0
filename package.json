@@ -11,6 +11,7 @@
   },
   "main": ".eslintrc.js",
   "dependencies": {
+    "@vueuse/core": "^4.9.0",
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
     "normalize.css": "^8.0.1",

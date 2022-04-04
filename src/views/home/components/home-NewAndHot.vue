@@ -1,51 +1,67 @@
 /** 好物和人气推荐 */
 <template>
-  <div class="container">
+  <div ref="listRef">
     <HomePanel v-for="(panel,i) in DataArr" :key="i+'panel'" :title="panel.title"
       :sub-title="panel.subTitle">
       <template v-slot:right>
         <XtxMore path="/" />
       </template>
 
-      <transition name="fade">
-        <ul class="listWrap" v-if="panel.picList().length>0">
-          <li v-for="(item,i2) in panel.picList()" :key="i2+'pic'">
-            <!-- {{item}}
-          --------
-          {{panel.picList}} -->
-            <RouterLink :to="`/product/${item.id}`" v-if="panel.des==='new'">
-              <img :src="item.picture" alt="">
-              <p class="name ellipsis">{{item.name}}</p>
-              <p class="price">&yen;{{item.price}}</p>
-            </RouterLink>
+      <div style="{position:relative}">
+        <transition name="fade">
+          <ul class="listWrap" v-if="panel.picList()&&panel.picList().length>0">
+            <li v-for="(item,i2) in panel.picList()" :key="i2+'pic'">
+              <RouterLink :to="`/product/${item.id}`" v-if="panel.des==='new'">
+                <img :src="item.picture" alt="">
+                <p class="name ellipsis">{{item.name}}</p>
+                <p class="price">&yen;{{item.price}}</p>
+              </RouterLink>
 
-            <RouterLink :to="`/product/${item.id}`" v-else-if="panel.des==='hot'">
-              <img :src="item.picture" alt="">
-              <p class="name">{{item.title}}</p>
-              <p class="desc">{{item.alt}}</p>
-            </RouterLink>
-          </li>
-        </ul>
-        <HomeSkeleton v-else />
-      </transition>
+              <RouterLink :to="`/product/${item.id}`" v-else-if="panel.des==='hot'">
+                <img :src="item.picture" alt="">
+                <p class="name">{{item.title}}</p>
+                <p class="desc">{{item.alt}}</p>
+              </RouterLink>
+            </li>
+          </ul>
+
+          <HomeSkeleton v-else />
+        </transition>
+      </div>
 
     </HomePanel>
   </div>
 </template>
 
 <script>
-import HomeSkeleton from '../components/home-skeleton.vue'
-import { findNew, findHot } from '../api/category.js'
-import HomePanel from './home-panel.vue'
+
 import { ref } from 'vue'
+import HomeSkeleton from '../components/home-skeleton.vue'
+import HomePanel from './home-panel.vue'
+// import { useLazyData } from '@/utils/index.js'
+import { findNew, findHot } from '../api/category.js'
 export default {
   name: 'GoodAndNewIndex',
   components: { HomePanel, HomeSkeleton },
   props: {},
   setup () {
     let DataArr = ref([])
+    const listRef = ref(null)
     const hotList = ref([])
     const newList = ref([])
+    const myre = ref(null)
+
+    // myre.value = useLazyData(listRef, findNew)
+
+    // 1.获取新鲜的接口
+    findNew().then(res => {
+      newList.value = res.result
+    })
+
+    // 2.获取人气的接口
+    findHot().then(res => {
+      hotList.value = res.result
+    })
 
     DataArr = [{
       des: 'new',
@@ -59,19 +75,7 @@ export default {
       subTitle: '人气爆款 不容错过',
       picList: () => hotList.value
     }]
-
-    // 1.获取新鲜的接口
-    findNew().then(res => {
-      newList.value = res.result
-    })
-
-    // 2.获取人气的接口
-    findHot().then(res => {
-      hotList.value = res.result
-    })
-
-    console.log(DataArr)
-    return { DataArr }
+    return { DataArr, listRef, myre }
   }
 }
 </script>

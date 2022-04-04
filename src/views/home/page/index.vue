@@ -4,12 +4,17 @@
     <div class='container'>
       <!-- 左侧分类 -->
       <HomeCategory />
-
       <!-- 右侧轮播图 -->
       <HomeBanner />
-
-      <NewAndHot />
     </div>
+
+    <NewAndHot />
+
+    <!-- 热门品牌 -->
+    <HomeBrand />
+
+    <HomeProduct />
+
   </div>
 
 </template>
@@ -18,11 +23,12 @@
 import HomeCategory from '../components/home-category.vue'
 import HomeBanner from '../components/home-banner.vue'
 import NewAndHot from '../components/home-NewAndHot.vue'
-
+import HomeBrand from '../components/home-brand.vue'
+import HomeProduct from '../components/home-product.vue'
 export default {
   name: 'PageHome',
   components: {
-    HomeCategory, HomeBanner, NewAndHot
+    HomeCategory, HomeBanner, NewAndHot, HomeBrand, HomeProduct
   },
   setup () { }
 }
