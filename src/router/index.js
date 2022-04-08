@@ -20,6 +20,10 @@ const routes = [
 // vue 2中是通过new VueRouter()
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    // return 期望滚动到哪个的位置
+    return { left: 0, top: 0 }
+  }
 })
 export default router

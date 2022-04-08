@@ -89,3 +89,17 @@ ul {
   line-height: 0;
   clear: both;
 }
+.fade-right-enter-to,
+.fade-right-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+.fade-right-enter-active,
+.fade-right-leave-active {
+  transition: all 0.5s;
+}
+.fade-right-enter-from,
+.fade-right-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}

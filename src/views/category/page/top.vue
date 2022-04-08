@@ -3,9 +3,12 @@
   <div class="container top-category">
 
     <!-- 面包屑 -->
+
     <XtxBread>
       <XtxBreadItem to="/">首页</XtxBreadItem>
-      <XtxBreadItem>{{topCategory.name}}</XtxBreadItem>
+      <transition name="fade-right" mode="out-in">
+        <XtxBreadItem :key="topCategory.id">{{topCategory.name}}</XtxBreadItem>
+      </transition>
     </XtxBread>
 
     <!-- 轮播图 -->
@@ -77,8 +80,7 @@ export default {
     }
 
     watch(() => route.params.id, (newVal) => {
-      if (!newVal) return
-      console.log('newVal', newVal)
+      if (!newVal || route.fullPath.indexOf('sub') !== -1) return
       getSubList(newVal)
     }, { immediate: true })
 
