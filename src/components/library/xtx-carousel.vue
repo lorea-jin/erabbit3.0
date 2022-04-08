@@ -155,7 +155,8 @@ export default {
       color: #fff;
       border-radius: 50%;
       position: absolute;
-      top: 228px;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 2;
       text-align: center;
       line-height: 44px;
