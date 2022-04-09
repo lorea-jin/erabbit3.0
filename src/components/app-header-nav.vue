@@ -6,7 +6,7 @@
     </li>
     <li v-for="item in list" :key="item.id" @mouseenter="show(item)" @mouseleave="hide(item)">
       <router-link :to="`/category/${item.id}`" @click="hide(item)">{{item.name}}</router-link>
-      <!-- <div class="layer" :class="{open:item.open}">
+      <div class="layer" :class="{open:item.open}">
         <ul>
           <li v-for="sub in item.children" :key="sub.id" @click="hide(item)">
             <router-link :to="`/category/sub/${sub.id}`">
@@ -15,7 +15,7 @@
             </router-link>
           </li>
         </ul>
-      </div> -->
+      </div>
     </li>
 
   </ul>

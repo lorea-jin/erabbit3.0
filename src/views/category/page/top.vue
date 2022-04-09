@@ -3,7 +3,6 @@
   <div class="container top-category">
 
     <!-- 面包屑 -->
-
     <XtxBread>
       <XtxBreadItem to="/">首页</XtxBreadItem>
       <transition name="fade-right" mode="out-in">
@@ -16,13 +15,13 @@
 
     <!-- 二级分类  -->
     <div class="sub-list">
-      <h3>全部分类--{{topCategory.id}}</h3>
+      <h3>全部分类</h3>
       <ul>
         <li v-for="item in topCategory.children" :key="item.id">
-          <a href="javascript:;">
+          <RouterLink :to="`/category/sub/${item.id}`">
             <img :src="item.picture">
             <p>{{item.name}}</p>
-          </a>
+          </RouterLink>
         </li>
       </ul>
     </div>
