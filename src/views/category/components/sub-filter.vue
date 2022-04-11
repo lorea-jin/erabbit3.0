@@ -7,7 +7,7 @@
       <div class="body">
         <span v-for="brand in subFilter.brands" :key="brand.id"
           :class="{active:subFilter.selectedBrand===brand.id}"
-          @click="subFilter.selectedBrand=brand.id">{{brand.name}}</span>
+          @click="changeBrand(brand.id)">{{brand.name}}</span>
       </div>
     </div>
 
@@ -16,7 +16,7 @@
       <div class="body">
         <span v-for="attr in p.properties" :key="attr.id"
           :class="{active:p.selectedProperty===attr.id}"
-          @click="p.selectedProperty=attr.id">{{attr.name}}</span>
+          @click="changeAttr(p,attr.id)">{{attr.name}}</span>
       </div>
     </div>
 
@@ -29,7 +29,7 @@ import { findSubCategoryFilter } from '../api/index'
 import { useRoute } from 'vue-router'
 export default {
   name: 'SubFilter',
-  setup () {
+  setup (props, { emit }) {
     const route = useRoute()
     const subFilter = ref(null)
 
@@ -54,8 +54,39 @@ export default {
       getFilter()
     }, { immediate: true })
 
+    // 提交参数 {brandId:111,attrs:[{groupName,propertyName},...]}
+    const getFilterParams = () => {
+      const filterParams = {}
+      const attrs = []
+      filterParams.brandId = subFilter.value.selectedBrand
+      subFilter.value.saleProperties.forEach(p => {
+        const attr = p.properties.find(attr => attr.id === p.selectedProp)
+        if (attr && attr.id !== undefined) {
+          attrs.push({ groupName: p.name, propertyName: attr.name })
+        }
+      })
+      if (attrs.length) filterParams.attrs = attrs
+      return filterParams
+    }
+
+    // 修改品牌
+    const changeBrand = (brandId) => {
+      if (subFilter.value.selectedBrand === brandId) return
+      subFilter.value.selectedBrand = brandId
+      emit('filter-change', getFilterParams())
+    }
+
+    // 选中属性
+    const changeAttr = (p, attrId) => {
+      if (p.selectedProp === attrId) return
+      p.selectedProp = attrId
+      emit('filter-change', getFilterParams())
+    }
+
     return {
-      subFilter
+      subFilter,
+      changeBrand,
+      changeAttr
     }
   }
 }

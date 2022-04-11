@@ -30,6 +30,7 @@ export default {
     const toggleChange = () => {
       checked.value = !checked.value
       emit('update:modelValue', checked.value)
+      emit('change', checked.value)
     }
 
     return { checked, toggleChange }
