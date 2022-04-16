@@ -1,24 +1,24 @@
 {
-  "name": "erabbit3.0",
+  "name": "eribbit-client-pc-124",
   "version": "0.1.0",
   "private": true,
-  "description": "```\r npm install\r ```",
-  "author": "",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "main": ".eslintrc.js",
   "dependencies": {
     "@vueuse/core": "^4.9.0",
-    "axios": "^0.25.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "dayjs": "^1.10.4",
+    "mockjs": "^1.1.0",
     "normalize.css": "^8.0.1",
+    "vee-validate": "^4.0.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -44,16 +44,10 @@
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
-  "keywords": [],
-  "license": "ISC",
   "lint-staged": {
     "*.{js,jsx,vue}": [
       "vue-cli-service lint",
       "git add"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@gitee.com:lorea-jin/erabbit3.0.git"
   }
 }
