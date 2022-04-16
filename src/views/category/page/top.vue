@@ -79,7 +79,7 @@ export default {
     }
 
     watch(() => route.params.id, (newVal) => {
-      if (!newVal || route.fullPath.indexOf('sub') !== -1) return
+      if (!newVal || `/category/${newVal}` !== route.path) return
       getSubList(newVal)
     }, { immediate: true })
 

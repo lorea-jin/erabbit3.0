@@ -67,10 +67,10 @@ export default {
 
     // 3.切换排序条件重新加载
     const sortList = (sortParams) => {
-      loading.value = false
-      finished.value = false
       params = { ...params, ...sortParams }
       params.page = 1
+      loading.value = false
+      finished.value = false
       list.value = []
     }
 

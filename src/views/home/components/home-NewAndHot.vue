@@ -11,13 +11,13 @@
         <transition name="fade">
           <ul class="listWrap" v-if="panel.picList()&&panel.picList().length>0">
             <li v-for="(item,i2) in panel.picList()" :key="i2+'pic'">
-              <RouterLink :to="`/product/${item.id}`" v-if="panel.des==='new'">
+              <RouterLink :to="`/goods/${item.id}`" v-if="panel.des==='new'">
                 <img v-lazyload="item.picture" alt="">
                 <p class="name ellipsis">{{item.name}}</p>
                 <p class="price">&yen;{{item.price}}</p>
               </RouterLink>
 
-              <RouterLink :to="`/product/${item.id}`" v-else-if="panel.des==='hot'">
+              <RouterLink to="/" v-else-if="panel.des==='hot'">
                 <img v-lazyload="item.picture" alt="">
                 <p class="name">{{item.title}}</p>
                 <p class="desc">{{item.alt}}</p>
