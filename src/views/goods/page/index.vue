@@ -18,7 +18,10 @@
           <GoodsSales />
         </div>
         <div class="spec">
+          <!-- 名字区组件 ,城市组件-->
           <GoodsName :goods="goods" />
+          <!-- 规格组件 -->
+          <GoodsSku :goods="goods" @change="changeSku" />
         </div>
       </div>
 
@@ -47,13 +50,25 @@ import { useRoute } from 'vue-router'
 import GoodsImage from '../components/goods-image'
 import GoodsSales from '../components/goods-sales.vue'
 import GoodsName from '../components/goods-name.vue'
+import GoodsSku from '../components/goods-sku.vue'
 export default {
   name: 'XtxGoodsPage',
-  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName },
+  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku },
   setup () {
 
     const goods = useGoods()
-    return { goods }
+
+    // 选择不同sku时触发的函数
+    const changeSku = (obj) => {
+      console.log(obj)
+      goods.value.price = obj.price
+      goods.value.oldPrice = obj.oldPrice
+      goods.value.inventory = obj.inventory
+
+    }
+
+
+    return { goods, changeSku }
   }
 }
 
