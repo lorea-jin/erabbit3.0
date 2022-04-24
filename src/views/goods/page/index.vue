@@ -22,22 +22,31 @@
           <GoodsName :goods="goods" />
           <!-- 规格组件 -->
           <GoodsSku :goods="goods" @change="changeSku" />
+
+          <XtxNumbox v-model="num" :max="goods.inventory" label="数量" />
+
+          <XtxButton type="primary" style="margin-top:20px">加入购物车</XtxButton>
         </div>
       </div>
 
       <!-- 商品推荐 -->
-      <GoodsRelevant />
+      <GoodsRelevant :goodsId="goods.id" />
+
       <!-- 商品详情 -->
       <div class="goods-footer">
         <div class="goods-article">
           <!-- 商品+评价 -->
-          <div class="goods-tabs"></div>
+          <GoodsTabs />
           <!-- 注意事项 -->
-          <div class="goods-warn"></div>
+          <GoodsWarn />
         </div>
         <!-- 24热榜+专题推荐 -->
-        <div class="goods-aside"></div>
+        <div class="goods-aside">
+          <GoodsHot :goodsId="goods.id" :type="1" />
+          <GoodsHot :goodsId="goods.id" :type="2" />
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -45,30 +54,33 @@
 <script>
 import { findGoods } from '../api/index.js'
 import GoodsRelevant from '../components/goods-relevant'
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, provide, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import GoodsImage from '../components/goods-image'
 import GoodsSales from '../components/goods-sales.vue'
 import GoodsName from '../components/goods-name.vue'
 import GoodsSku from '../components/goods-sku.vue'
+import GoodsTabs from '../components/goods-tabs.vue'
+import GoodsHot from '../components/goods-hot.vue'
+import GoodsWarn from '../components/goods-warn.vue'
+
 export default {
   name: 'XtxGoodsPage',
-  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku },
+  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku, GoodsTabs, GoodsHot, GoodsWarn },
   setup () {
-
+    const num = ref(1)
     const goods = useGoods()
 
     // 选择不同sku时触发的函数
     const changeSku = (obj) => {
-      console.log(obj)
       goods.value.price = obj.price
       goods.value.oldPrice = obj.oldPrice
       goods.value.inventory = obj.inventory
 
     }
+    provide('goods', goods)
 
-
-    return { goods, changeSku }
+    return { goods, changeSku, num }
   }
 }
 
