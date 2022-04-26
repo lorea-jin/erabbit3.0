@@ -4,7 +4,7 @@
       <ul>
         <template v-if="profile.token">
           <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{profile.account}}</a></li>
-          <li><a href="javascript:;">退出登录</a></li>
+          <li><a href="javascript:;" @click="logout">退出登录</a></li>
         </template>
         <template v-else>
           <li>
@@ -33,7 +33,11 @@ export default {
       return store.state.user.profile
     })
 
-    return { profile }
+    const logout = () => {
+      store.commit('user/setUser', {})
+      router.push('/login')
+    }
+    return { profile, logout }
   }
 }
 </script>

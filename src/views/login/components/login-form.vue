@@ -14,17 +14,15 @@
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <Field name="mobile" v-model="form.mobile" type="text" placeholder="请输入用户名或手机号"
-              :class="{error:errors.mobile}" />
-            <div class="error" v-if="errors.mobile"><i
-                class="iconfont icon-warning" />{{errors.mobile}}</div>
+            <Field name="account" v-model="form.account" type="text" placeholder="请输入用户名" />
+            <div class="error" v-if="errors.account"><i
+                class="iconfont icon-warning" />{{errors.account}}</div>
           </div>
         </div>
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-lock"></i>
-            <Field name="password" v-model="form.password" type="password" placeholder="请输入密码"
-              :class="{error:errors.password}" />
+            <Field name="password" v-model="form.password" type="password" placeholder="请输入密码" />
             <div class="error" v-if="errors.password"><i
                 class="iconfont icon-warning" />{{errors.password}}</div>
           </div>
@@ -34,8 +32,7 @@
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <Field name="mobile" v-model="form.mobile" type="text" placeholder="请输入手机号"
-              :class="{error:errors.mobile}" />
+            <Field name="mobile" v-model="form.mobile" type="text" placeholder="请输入手机号" />
             <div class="error" v-if="errors.mobile"><i
                 class="iconfont icon-warning" />{{errors.mobile}}</div>
           </div>
@@ -43,19 +40,17 @@
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-code"></i>
-            <Field name="code" v-model="form.code" type="password" placeholder="请输入验证码"
-              :class="{error:errors.code}" />
+            <Field name="code" v-model="form.code" type="password" placeholder="请输入验证码" />
             <div class="error" v-if="errors.code"><i class="iconfont icon-warning" />{{errors.code}}
             </div>
-            <span class="code">发送验证码</span>
+            <span class="code" @click="send"> {{time===0?'发送验证码':`${time}后可重发`}}</span>
           </div>
         </div>
       </template>
       <div class="form-item">
         <div class="agree">
 
-          <Field as="XtxCheckbox" name="isAgree" v-model="form.isAgree"
-            :class="{error:errors.isAgree}" />
+          <Field as="XtxCheckbox" name="isAgree" v-model="form.isAgree" />
           <span>我已同意</span>
           <a href="javascript:;">《隐私条款》</a>
           <span>和</span>
@@ -77,18 +72,27 @@
 <script>
 import schema from '@/utils/vee-validate-schema'
 import { Form, Field } from 'vee-validate'
-import { reactive, ref, watch } from 'vue'
+import { onUnmounted, reactive, ref, watch } from 'vue'
+import Message from '@/components/library/Message.js'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+import { useIntervalFn } from '@vueuse/core'
+import { userAccountLogin, userMobileLoginMsg, userMobileLogin } from '../api/index'
+
 export default {
   name: 'LoginForm',
   components: { Form, Field },
   props: {},
   setup () {
+    const store = useStore()
+    const route = useRoute()
+    const router = useRouter()
     const isMsgLogin = ref(false)
 
     // 表单对象数据
     const form = reactive({
       isAgree: true,
-      account: null,
+      account: 'xiaotuxian001',
       password: null,
       mobile: null,
       code: null
@@ -118,12 +122,61 @@ export default {
     })
 
 
-    // 2.登陆校验
-    const login = async () => {
-      const valid = await formCom.value.validate()
-      console.log(valid)
+    // 2.发送验证码
+    const time = ref(0)
+    const send = async () => {
+      const valid = schema.mobile(form.mobile)   //校验手机
+      if (valid === true) { //通过 发验证码，改成60秒
+        if (time.value === 0) {
+          await userMobileLoginMsg(form.mobile)
+          Message({ type: 'success', text: '发送成功' })
+          time.value = 60
+          resume()
+        }
+
+      } else {
+        //格式不对调用Vee Form实例方法提示
+        formCom.value.setFieldError('mobile', valid)
+      }
+
+
+
     }
-    return { isMsgLogin, form, mySchema, formCom, login }
+
+    const { pause, resume } = useIntervalFn(() => {
+      time.value--
+      if (time.value <= 0) { pause() }
+    }, 1000, false)
+    onUnmounted(() => {
+      pause()
+    })
+
+    // 3.登陆校验
+    const login = async () => {
+      let data
+      const valid = await formCom.value.validate()
+      if (valid) {
+        try {
+          if (!isMsgLogin.value) {//账号
+            data = await userAccountLogin(form)
+          } else {//验证码
+            data = await userMobileLogin(form)
+          }
+        } catch (e) {
+          Message({ type: 'error', text: e.response.data.message || '登录失败' })
+        }
+
+        // 1.存入store 本地
+        const { id, account, nickname, avatar, token, mobile } = data.result
+        store.commit('user/setUser', { id, account, nickname, avatar, token, mobile })
+        // 2.提示
+        Message({ type: 'success', text: '登录成功' })
+        // 3.跳转 :从哪来的跳回哪
+        router.push(route.query.redirectUrl || '/')
+      }
+    }
+
+    return { isMsgLogin, form, mySchema, formCom, login, send, time }
   }
 }
 </script>
@@ -229,5 +282,8 @@ export default {
       }
     }
   }
+}
+.error {
+  color: @priceColor;
 }
 </style>

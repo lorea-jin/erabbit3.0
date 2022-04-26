@@ -6,7 +6,7 @@ export default {
     // 1. 必填
     // 2. 6-20个字符，需要以字母开头
     if (!value) return '请输入用户名'
-    if (!/^[a-zA-Z]\w{5,19}$/.text(value)) return '字母开头且6-20个字符'
+    if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return '字母开头且6-20个字符'
     return true
   },
 
