@@ -5,6 +5,7 @@ const home = () => import('@/views/home/page/index.vue')
 const TopCategory = () => import('@/views/category/page/top.vue')
 const SubCategory = () => import('@/views/category/page/sub.vue')
 const Goods = () => import('@/views/goods/page/index.vue')
+const Login = () => import('@/views/login/page/index')
 
 const routes = [
   {
@@ -16,7 +17,8 @@ const routes = [
       { path: '/category/sub/:id', component: SubCategory },
       { path: '/goods/:id', component: Goods }
     ]
-  }
+  },
+  { path: '/login', component: Login }
 ]
 
 // vue 2中是通过new VueRouter()

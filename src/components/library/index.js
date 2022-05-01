@@ -6,19 +6,18 @@ import defaultImg from '@/assets/images/200.png'
 // import XtxBread from './xtx-bread.vue'
 // import XtxBreadItem from './xtx-bread-item.vue'
 const importFn = require.context('./', false, /\.vue$/)
+import XtxMessageFn from './Message'
 
 export default {
   install (app) {
     // app.component(XtxSkeleton.name, XtxSkeleton)
     // app.component(XtxCarousel.name, XtxCarousel)
-    // app.component(XtxMore.name, XtxMore)
-    // app.component(XtxBread.name, XtxBread)
-    // app.component(XtxBreadItem.name, XtxBreadItem)
     importFn.keys().forEach(key => {
       const component = importFn(key).default
       app.component(component.name, component)// 组件注册
     })
     defineDirective(app)
+    app.config.globalProperties.$message = XtxMessageFn
   }
 }
 
