@@ -24,9 +24,9 @@ export default {
       state.list.unshift(goods)
     },
 
-    // 3.更新购物车,修改购物车信息
+    // 3.更新购物车,修改购物车信息 goods中必有skuId,+其他要改变的属性
     updateCart (state, goods) {
-      //goods中必有skuId，但其他信息可能不完整，有数据的修改就行了
+      //但其他信息可能不完整，有数据的修改就行了
       const currGood = state.list.find(item => item.skuId === goods.skuId)
       for (let k in goods) {
         //排除goods中值不正常的，其余赋值给当前选中商品对象
@@ -90,8 +90,75 @@ export default {
           resolve()
         }
       })
-    }
+    },
 
+    // 6.修改购物车商品信息详情
+    updateCart (ctx, goods) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // TODO 已登陆
+        } else {
+          // 未登录
+          ctx.commit('updateCart', goods)
+          resolve()
+        }
+      })
+    },
+
+    // 7.全选的/取消全选的actions
+    checkAllCart (ctx, selected) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 登录 TODO
+        } else {
+          // 本地
+          // 1. 获取有效的商品列表，遍历的去调用修改mutations即可
+          ctx.getters.validList.forEach(item => {
+            ctx.commit('updateCart', { skuId: item.skuId, selected })
+          })
+          resolve()
+        }
+      })
+    },
+
+    // 8.批量删除选中商品
+    batchDeleteCart (ctx, isClear) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 登录 TODO
+
+        } else {
+          // 本地
+          ctx.getters[isClear ? 'invalidList' : 'selectedList'].forEach(item => {
+            ctx.commit('deleteCart', item.skuId)
+          })
+          resolve()
+        }
+      })
+    },
+
+    // 9.修改sku规格函数
+    updateCartSku (ctx, { oldSkuId, newSku }) {
+      return new Promise((resolve, reject) => {
+        if (ctx.rootState.user.profile.token) {
+          // 登录 TODO
+
+        } else {
+          // 本地
+          // 1. 获取旧的商品信息
+          const oldGoods = ctx.state.list.find(item => item.skuId === oldSkuId)
+          // 2. 删除旧的商品
+          ctx.commit('deleteCart', oldSkuId)
+          // 3. 合并一条新的商品信息
+          const { skuId, price: nowPrice, inventory: stock, specsText: attrsText } = newSku
+          const newGoods = { ...oldGoods, skuId, nowPrice, stock, attrsText }
+          // 4. 去插入即可
+          ctx.commit('insertCart', newGoods)
+
+          resolve()
+        }
+      })
+    }
   },
   getters: {
     // 有效商品列表
@@ -107,6 +174,31 @@ export default {
     // 有效商品总价
     validAmount (state, getters) {
       return getters.validList.reduce((total, cur) => total + cur.price * cur.count, 0)
+    },
+
+    // 无效商品列表
+    invalidList (state) {
+      return state.list.filter(item => item.stock < 0 || item.isEffective === false)
+    },
+
+    // 选中商品列表
+    selectedList (state, getters) {
+      return getters.validList.filter(item => item.selected)
+    },
+
+    // 选中商品件数
+    selectedTotal (state, getters) {
+      return getters.selectedList.reduce((total, cur) => total + cur.count, 0)
+    },
+
+    // 选中商品总金额
+    selectedAmount (state, getters) {
+      return getters.selectedList.reduce((total, cur) => total + cur.nowPrice * cur.count, 0)
+    },
+
+    // 是否全选
+    isCheckAll (state, getters) {
+      return getters.validList.length === getters.selectedList.length && getters.selectedList.length !== 0
     }
   }
 }

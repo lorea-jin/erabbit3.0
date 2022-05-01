@@ -74,6 +74,7 @@ export default {
 
     // 选择不同sku时触发的函数
     const changeSku = (obj) => {
+      console.log(obj)
       goods.value.price = obj.price
       goods.value.oldPrice = obj.oldPrice
       goods.value.inventory = obj.inventory

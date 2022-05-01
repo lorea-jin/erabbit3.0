@@ -26,7 +26,7 @@ export default {
     const sliders = ref([])
     const useRelGoodsData = (id) => {
       findRelGoods(id).then(res => {
-        console.log(res.result)
+        // console.log(res.result)
         const size = 4 // 每页4条
         const total = Math.ceil(res.result.length / 4) //循环次数
         for (let i = 0; i < total; i++) {

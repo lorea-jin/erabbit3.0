@@ -22,7 +22,8 @@ export default {
     // v-model  :modelValue   @update:modelValue
     // 监听数据，modelValue改变了就重新赋值给checked值
     watch(() => props.modelValue, (newValue) => {
-      if (!newValue) return
+
+      // if (!newValue) return
       checked.value = newValue
     }, { immediate: true })
 

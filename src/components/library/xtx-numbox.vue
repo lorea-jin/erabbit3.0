@@ -43,6 +43,7 @@ export default {
       calculate.value = val
 
       emit('update:modelValue', calculate.value)
+      emit('change', calculate.value)
     }
 
     return { toggle, calculate }
