@@ -6,7 +6,7 @@ const TopCategory = () => import('@/views/category/page/top.vue')
 const SubCategory = () => import('@/views/category/page/sub.vue')
 const Goods = () => import('@/views/goods/page/index.vue')
 const Login = () => import('@/views/login/page/index')
-
+const cart = () => import('@/views/cart/page/index.vue')
 const routes = [
   {
     path: '/',
@@ -15,7 +15,8 @@ const routes = [
       { path: '/', component: home },
       { path: '/category/:id', component: TopCategory },
       { path: '/category/sub/:id', component: SubCategory },
-      { path: '/goods/:id', component: Goods }
+      { path: '/goods/:id', component: Goods },
+      { path: '/cart', component: cart }
     ]
   },
   { path: '/login', component: Login }
