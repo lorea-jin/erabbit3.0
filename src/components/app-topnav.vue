@@ -36,6 +36,7 @@ export default {
     const logout = () => {
       store.commit('user/setUser', {})
       router.push('/login')
+      store.commit('cart/setCartList', [])  // 清空购物车
     }
     return { profile, logout }
   }

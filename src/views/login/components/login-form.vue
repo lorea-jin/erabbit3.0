@@ -166,13 +166,19 @@ export default {
           Message({ type: 'error', text: e.response.data.message || '登录失败' })
         }
 
+
         // 1.存入store 本地
         const { id, account, nickname, avatar, token, mobile } = data.result
         store.commit('user/setUser', { id, account, nickname, avatar, token, mobile })
-        // 2.提示
-        Message({ type: 'success', text: '登录成功' })
-        // 3.跳转 :从哪来的跳回哪
-        router.push(route.query.redirectUrl || '/')
+        // +合并购物车
+        store.dispatch('cart/mergeLocalCart').then(res => {
+          // 2.提示
+          Message({ type: 'success', text: '登录成功' })
+          // 3.跳转 :从哪来的跳回哪
+          router.push(route.query.redirectUrl || '/')
+        }).catch()
+
+
       }
     }
 

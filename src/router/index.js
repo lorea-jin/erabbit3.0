@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-
+import store from '@/store/index'
 const Layout = () => import('@/views/layout.vue')
 const home = () => import('@/views/home/page/index.vue')
 const TopCategory = () => import('@/views/category/page/top.vue')
@@ -7,6 +7,9 @@ const SubCategory = () => import('@/views/category/page/sub.vue')
 const Goods = () => import('@/views/goods/page/index.vue')
 const Login = () => import('@/views/login/page/index')
 const cart = () => import('@/views/cart/page/index.vue')
+const PayCheckout = () => import('@/views/member/pay/checkout.vue')
+const PayIndex = () => import('@/views/member/pay/index')
+
 const routes = [
   {
     path: '/',
@@ -16,7 +19,9 @@ const routes = [
       { path: '/category/:id', component: TopCategory },
       { path: '/category/sub/:id', component: SubCategory },
       { path: '/goods/:id', component: Goods },
-      { path: '/cart', component: cart }
+      { path: '/cart', component: cart },
+      { path: '/member/checkout', component: PayCheckout },
+      { path: '/member/pay', component: PayIndex }
     ]
   },
   { path: '/login', component: Login }
@@ -30,5 +35,12 @@ const router = createRouter({
     // return 期望滚动到哪个的位置
     return { left: 0, top: 0 }
   }
+})
+router.beforeEach((to, from, next) => {
+  const { profile } = store.state.user
+  if (to.path.startsWith('/member') && !profile.token) {
+    next({ path: '/login', query: { redirectUrl: to.fullPath } })
+  }
+  next()
 })
 export default router
