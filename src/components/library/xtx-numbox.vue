@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { ref, watch } from 'vue-demi'
+import { ref, watch } from 'vue'
 export default {
   name: 'XtxNumbox',
   props: {
@@ -34,7 +34,7 @@ export default {
 
     watch(() => props.modelValue, (val) => {
       if (!val) return
-      calculate.val = val
+      calculate.value = val
     }, { immediate: true })
 
     const toggle = (step) => {
